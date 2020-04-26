@@ -1,8 +1,8 @@
 # importing data
 pd.read_csv(filename) # From a CSV file
-pd.read_table(filename) # From a delimited text file (like TSV)
+pd.read_table(filename) # From a delimited text file
 pd.read_excel(filename) # From an Excel file
-pd.read_sql(query, connection_object) # Reads from a SQL table/database
+pd.read_sql(query, connection_object) # Reads from a SQL table or database
 pd.read_json(json_string) # Reads from a JSON formatted string, URL or file.
 pd.read_html(url) # Parses an html URL, string or file and extracts tables to a list of dataframes
 pd.read_clipboard() # Takes the contents of your clipboard and passes it to read_table()
@@ -97,22 +97,16 @@ data = pd.read_csv(dataset_url, sep=';')
 # Split data into training and test sets
 y = data.quality
 X = data.drop('quality', axis=1)
-X_train, X_test, y_train, y_test = train_test_split(X, y, 
-                                                    test_size=0.2, 
-                                                    random_state=123, 
-                                                    stratify=y)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=123, stratify=y)
  
 # Declare data preprocessing steps
-pipeline = make_pipeline(preprocessing.StandardScaler(), 
-                         RandomForestRegressor(n_estimators=100))
+pipeline = make_pipeline(preprocessing.StandardScaler(), RandomForestRegressor(n_estimators=100))
  
 # Declare hyperparameters to tune
-hyperparameters = { 'randomforestregressor__max_features' : ['auto', 'sqrt', 'log2'],
-                  'randomforestregressor__max_depth': [None, 5, 3, 1]}
+hyperparameters = { 'randomforestregressor__max_features' : ['auto', 'sqrt', 'log2'],'randomforestregressor__max_depth': [None, 5, 3, 1]}
  
 # Tune model using cross-validation pipeline
-clf = GridSearchCV(pipeline, hyperparameters, cv=10)
- 
+clf = GridSearchCV(pipeline, hyperparameters, cv=10) 
 clf.fit(X_train, y_train)
  
 # Refit on the entire training set
